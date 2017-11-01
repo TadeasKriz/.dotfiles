@@ -9,7 +9,7 @@ export ZSH=/Users/TadeasKriz/.oh-my-zsh
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="powerlevel9k/powerlevel9k"
 
-POWERLEVEL9K_MODE='awesome-fontconfig'
+POWERLEVEL9K_MODE='nerdfont-complete'
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon dir vcs)
 
@@ -89,3 +89,9 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
+ssh-add -K ~/.ssh/id_rsa
+export ANDROID_HOME=/Users/TadeasKriz/Library/Android/sdk
+export JAVA_HOME=$(/usr/libexec/java_home)
+
