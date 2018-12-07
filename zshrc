@@ -51,11 +51,13 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon dir vcs)
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=242"
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git bundler osx rake ruby pod xcode thefuck git-flow jira fabric sudo rvm wd)
+plugins=(git bundler osx rake ruby pod xcode git-flow jira fabric sudo rvm wd zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -94,4 +96,36 @@ if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
 ssh-add -K ~/.ssh/id_rsa
 export ANDROID_HOME=/Users/TadeasKriz/Library/Android/sdk
 export JAVA_HOME=$(/usr/libexec/java_home)
+export DEV_HOME=/Users/TadeasKriz/Development
 
+
+[ -s "/Users/tadeaskriz/.jabba/jabba.sh" ] && source "/Users/tadeaskriz/.jabba/jabba.sh"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+source ~/.profile
+
+# 0 -- vanilla completion (abc => abc)
+# 1 -- smart case completion (abc => Abc)
+# 2 -- word flex completion (abc => A-big-Car)
+# 3 -- full flex completion (abc => ABraCadabra)
+zstyle ':completion:*' matcher-list '' \
+  'm:{a-z\-}={A-Z\_}' \
+  'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
+  'r:|?=** m:{a-z\-}={A-Z\_}'
+
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export RELEASE_ACCESS_TOKEN=4d5e9012505793aa9303ac43b7e2f93b5507636b
+export GITHUB_USERNAME=TadeasKriz
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
+
+eval "$(pyenv init -)"
+
+alias lg='lazygit'
