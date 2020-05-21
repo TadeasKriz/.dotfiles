@@ -57,7 +57,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=242"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git bundler osx rake ruby pod xcode git-flow jira fabric sudo rvm wd zsh-autosuggestions)
+plugins=(git bundler osx rake ruby pod xcode git-flow jira fabric sudo rvm wd zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -91,10 +91,9 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
-ssh-add -K ~/.ssh/id_rsa
-export ANDROID_HOME=/Users/TadeasKriz/Library/Android/sdk
+#ssh-add -K ~/.ssh/id_rsa
+export ANDROID_HOME=/Users/tadeaskriz/Development/Tools/Android/SDK
 export JAVA_HOME=$(/usr/libexec/java_home)
 export DEV_HOME=/Users/TadeasKriz/Development
 
@@ -102,7 +101,7 @@ export DEV_HOME=/Users/TadeasKriz/Development
 [ -s "/Users/tadeaskriz/.jabba/jabba.sh" ] && source "/Users/tadeaskriz/.jabba/jabba.sh"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+#export PATH="$PATH:$HOME/.rvm/bin"
 
 source ~/.profile
 
@@ -116,8 +115,8 @@ zstyle ':completion:*' matcher-list '' \
   'r:|?=** m:{a-z\-}={A-Z\_}'
 
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-export RELEASE_ACCESS_TOKEN=4d5e9012505793aa9303ac43b7e2f93b5507636b
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH:$HOME/.scripts"
+export RELEASE_ACCESS_TOKEN=162952a8dfda9c69744890a057a10aa0d29c1519
 export GITHUB_USERNAME=TadeasKriz
 
 
@@ -128,4 +127,66 @@ if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
 
 eval "$(pyenv init -)"
 
+alias please="sudo"
 alias lg='lazygit'
+alias pi='pod install'
+eval "$(rbenv init -)"
+
+# eval "$(jenv init -)"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/tadeaskriz/.sdkman"
+[[ -s "/Users/tadeaskriz/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/tadeaskriz/.sdkman/bin/sdkman-init.sh"
+
+function xcode-versions () {
+    ls -l /Applications/Xcodes | grep '.app' | awk '{print $NF}' | sed 's/.app$//' | sed 's/^Xcode//'
+}
+
+function xcode-list () {
+    xcode-versions | awk '{print "  - Xcode " $0;}'
+}
+
+function xcode () {
+    open /Applications/Xcode.app
+}
+
+function xcodes () {
+  if (( $# == 0 ))
+  then
+    echo "Available Xcodes:" 
+    xcode-list
+  else
+    if $(xcode-versions | grep -qw "$1")
+    then
+      echo "Switching to $1"
+      XCODE_PATH="/Applications/Xcodes/Xcode$1.app"
+      sudo xcode-select -s "$XCODE_PATH"
+      rm /Applications/Xcode.app
+      ln -s "$XCODE_PATH" /Applications/Xcode.app
+    else
+      echo "Xcode named $1 not found!\nAvailable Xcodes:"
+      xcode-list
+    fi  
+  fi
+}
+
+function fixdisplay () {
+#  displayplacer "id:4D57A90C-547F-BB9E-06A1-2278E532330C res:2560x1440 hz:59 color_depth:8 scaling:off origin:(0,0) degree:0" "id:CDA4218F-08C5-A851-8749-713B265C02F1 res:1440x2560 hz:59 color_depth:8 scaling:off origin:(-1440,-548) degree:90" "id:2435A40A-27FA-C6B8-76BA-E051A4D8C96A res:1440x2560 hz:59 color_depth:8 scaling:off origin:(2560,-569) degree:270"
+  displayplacer "id:8D4AFB36-EE4E-B48E-059A-FEB5EC8D4620 res:2560x1440 hz:60 color_depth:8 scaling:off origin:(0,0) degree:0" "id:CDA4218F-08C5-A851-8749-713B265C02F1 res:1440x2560 hz:59 color_depth:8 scaling:off origin:(-1440,-1120) degree:90" "id:2435A40A-27FA-C6B8-76BA-E051A4D8C96A res:1440x2560 hz:59 color_depth:8 scaling:off origin:(2560,-1120) degree:270" "id:1CDA4534-FD86-B714-CACB-390248F4D40A res:2560x1440 hz:59 color_depth:8 scaling:off origin:(0,-1440) degree:180"
+}
+
+function fixdisplayus () {
+  displayplacer "id:FCCAFD4E-7795-1C64-CA96-7F02B819CF09 res:1920x1080 hz:60 color_depth:8 scaling:on origin:(0,0) degree:0" "id:7A44E631-49E0-E333-BC96-E9D85A15F6FF res:1080x1920 hz:60 color_depth:8 scaling:on origin:(-1080,-340) degree:90" "id:CDABDD96-616F-31FD-D133-9A25E73F5A5A res:1080x1920 hz:60 color_depth:8 scaling:on origin:(1920,-396) degree:90"
+}
+
+function fixdisplayusbc () {
+  displayplacer "id:4D57A90C-547F-BB9E-06A1-2278E532330C res:2560x1440 hz:59 color_depth:8 scaling:off origin:(0,0) degree:0" "id:CDA4218F-08C5-A851-8749-713B265C02F1 res:1440x2560 hz:59 color_depth:8 scaling:off origin:(-1440,-1120) degree:90" "id:2435A40A-27FA-C6B8-76BA-E051A4D8C96A res:1440x2560 hz:59 color_depth:8 scaling:off origin:(2560,-1120) degree:270" "id:1CDA4534-FD86-B714-CACB-390248F4D40A res:2560x1440 hz:59 color_depth:8 scaling:off origin:(0,-1440) degree:180"
+}
+
+export GOPATH="${HOME}/.go"
+export GOROOT="$(brew --prefix golang)/libexec"
+export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+test -d "${GOPATH}" || mkdir "${GOPATH}"
+test -d "${GOPATH}/src/github.com/" || mkdir -p "${GOPATH}/src/github.com"
+
+export GOPATH=$HOME/.go
