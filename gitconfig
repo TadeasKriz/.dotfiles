@@ -1,0 +1,5 @@
+[user]
+	name = Tadeas Kriz
+	email = tadeas@brightify.org
+[url "git@github.com:"]
+	insteadOf = https://github.com/
